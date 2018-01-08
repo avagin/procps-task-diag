@@ -1798,6 +1798,30 @@ static int show_task(struct nlmsghdr *hdr, void *arg)
 			p->pgrp = msg->pgid;
 			p->session = msg->sid;
 			strcpy(p->cmd, msg->comm);
+			p->state = 0;
+			switch (msg->state) {
+				case TASK_DIAG_RUNNING:
+					p->state = 'R';
+					break;
+				case TASK_DIAG_INTERRUPTIBLE:
+					p->state = 'S';
+					break;
+				case TASK_DIAG_UNINTERRUPTIBLE:
+					p->state = 'D';
+					break;
+				case TASK_DIAG_STOPPED:
+					p->state = 't';
+					break;
+				case  TASK_DIAG_TRACE_STOP:
+					p->state = 'T';
+					break;
+				case TASK_DIAG_DEAD:
+					p->state = 'X';
+					break;
+				case TASK_DIAG_ZOMBIE:
+					p->state = 'Z';
+					break;
+			}
 		}
 		break;
 		case TASK_DIAG_CRED:
