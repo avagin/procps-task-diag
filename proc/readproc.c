@@ -1407,7 +1407,7 @@ PROCTAB* openproc(int flags, ...) {
         dst_buffer = xmalloc(MAX_BUFSZ);
     }
 
-    if (task_diag_open(PT) == 0) {
+    if (!getenv("PS_NO_TASK_DIAG") && task_diag_open(PT) == 0) {
 	    PT->finder = task_diag_nextpid;
 	    PT->reader = task_diag_readproc;
     }
